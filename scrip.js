@@ -76,27 +76,3 @@ const LearnerSubmissions = [
   }
 ];
 
-// Helper Functions
-
-// I check if assignment is due
-function isDue(dueDateStr) {
-  const now = new Date();
-  const dueDate = new Date(dueDateStr);
-  return now >= dueDate;
-}
-
-// I check if submission was late
-function isLate(submitDateStr, dueDateStr) {
-  return new Date(submitDateStr) > new Date(dueDateStr);
-}
-
-// I apply late penalty (10% of points_possible)
-function applyLatePenalty(score, pointsPossible) {
-  return score - pointsPossible * 0.1;
-}
-
-// I calculate percentage (score / pointsPossible)
-function calculatePercentage(score, pointsPossible) {
-  if (pointsPossible === 0) throw new Error("Points possible cannot be zero.");
-  return score / pointsPossible;
-}
