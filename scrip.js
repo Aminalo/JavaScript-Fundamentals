@@ -109,3 +109,22 @@ function isDue(dueDate) {
   return new Date(dueDate) <= now; 
 }
 
+//Helper Functions for Penalty & Percentage
+// I check if submission is late
+function isLate(submittedAt, dueAt) {
+  return new Date(submittedAt) > new Date(dueAt);
+}
+
+// I apply late penalty (10% of possible points)
+function applyLatePenalty(score, pointsPossible) {
+  const penalty = pointsPossible * 0.1;
+  return score - penalty;
+}
+
+// I calculate percentage safely
+function calculatePercentage(score, pointsPossible) {
+  if (pointsPossible === 0) {
+    throw new Error("Points possible cannot be zero.");
+  }
+  return score / pointsPossible;
+}
