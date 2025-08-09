@@ -137,7 +137,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
     if (assignmentGroup.course_id !== course.id) {
       throw new Error(`AssignmentGroup does not belong to course ${course.id}`);
     }
-    console.log("✅ Course and AssignmentGroup match");
+    console.log(" Course and AssignmentGroup match");
 
     const learnersMap = {}; // 
 
@@ -152,7 +152,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
 
       // I Skip if not yet due
       if (!isDue(assignment.due_at)) {
-        console.log(`⏩ Skipping assignment ${assignment.id} (not yet due)`);
+        console.log(` Skipping assignment ${assignment.id} (not yet due)`);
         continue;
       }
 
@@ -160,7 +160,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
 
       // I apply late penalty
       if (isLate(sub.submission.submitted_at, assignment.due_at)) {
-        console.log(`📉 Late submission for assignment ${assignment.id}, applying penalty`);
+        console.log(`Late submission for assignment ${assignment.id}, applying penalty`);
         score = applyLatePenalty(score, assignment.points_possible);
       }
 
@@ -179,7 +179,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
       learnersMap[sub.learner_id].totalScore += score;
       learnersMap[sub.learner_id].totalPoints += assignment.points_possible;
 
-      console.log(`💾 Stored: Learner ${sub.learner_id}, Assignment ${assignment.id}, %=${percentage.toFixed(3)}`);
+      console.log(`Stored: Learner ${sub.learner_id}, Assignment ${assignment.id}, %=${percentage.toFixed(3)}`);
     }
 
     // ===== 4. BUILD FINAL RESULT =====
@@ -196,3 +196,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
     return [];
   }
 }
+
+
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+console.log("Final Results:", result);
