@@ -102,6 +102,8 @@ function getLearnerData(course, assignmentGroup, submissions) {
 
 // Helper functions 
 
+
+//Adding a Helper Function for Date Check
 function isDue(dueDate) {
   const now = new Date();
   return new Date(dueDate) <= now; 
