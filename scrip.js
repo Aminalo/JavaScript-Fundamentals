@@ -76,26 +76,27 @@ const LearnerSubmissions = [
   }
 ];
 
-function getLearnerData(course, ag, submissions) {
-  // here, we would process this data to achieve the desired result.
-  const result = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
-  ];
+// Helper Functions
 
-  return result;
+// I check if assignment is due
+function isDue(dueDateStr) {
+  const now = new Date();
+  const dueDate = new Date(dueDateStr);
+  return now >= dueDate;
 }
 
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+// I check if submission was late
+function isLate(submitDateStr, dueDateStr) {
+  return new Date(submitDateStr) > new Date(dueDateStr);
+}
 
-console.log(result);
+// I apply late penalty (10% of points_possible)
+function applyLatePenalty(score, pointsPossible) {
+  return score - pointsPossible * 0.1;
+}
+
+// I calculate percentage (score / pointsPossible)
+function calculatePercentage(score, pointsPossible) {
+  if (pointsPossible === 0) throw new Error("Points possible cannot be zero.");
+  return score / pointsPossible;
+}
