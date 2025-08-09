@@ -76,3 +76,29 @@ const LearnerSubmissions = [
   }
 ];
 
+//I start with the main function and add helper functions after
+function getLearnerData(course, assignmentGroup, submissions) {
+  try {
+    //VALIDATION STEP 
+    if (assignmentGroup.course_id !== course.id) {
+      throw new Error(`AssignmentGroup does not belong to course ${course.id}`);
+    }
+
+    // Prepare data structures
+    const results = []; // Final array we return
+    const learnersMap = {}; // Temp object to group data by learner ID
+
+    console.log("Validation passed. Starting data processing...");
+
+    // We'll loop through submissions here
+
+    return results;
+
+  } catch (error) {
+    console.error("Error in getLearnerData:", error.message);
+    return []; 
+  }
+}
+
+
+
