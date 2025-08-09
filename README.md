@@ -1,23 +1,100 @@
-function getLearnerData(course, ag, submissions) {
-  // here, we would process this data to achieve the desired result.
-  const result = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
-  ];
+# JavaScript SBA – Learner Data Processing
 
-  return result;
-}
+## **Project Description**
+This project processes course, assignment, and learner submission data to generate a final report for each learner, including:
 
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+- **Average score** across completed assignments.
+- **Individual assignment percentages**.
+- **Late penalties** applied where necessary.
+- **Exclusion** of assignments not yet due.
 
-console.log(result);
+The code demonstrates JavaScript fundamentals, including variables, loops, conditionals, functions, objects, arrays, and error handling.
+
+---
+
+## **How I Built It**
+
+1. Understanding the Data
+We started with three datasets:
+
+- **CourseInfo** – basic course details.
+- **AssignmentGroup** – assignments tied to the course.
+- **LearnerSubmissions** – learner scores and submission dates.
+
+Before processing, we verified:
+
+
+(assignmentGroup.course_id === course.id) 
+This ensures the assignments belong to the given course.
+
+
+2. Breaking Down the Problem
+To keep the code clean and reusable, I created helper functions:
+
+function isLate(submittedAt, dueAt) { ... }
+function applyLatePenalty(score, pointsPossible) { ... }
+function calculatePercentage(score, pointsPossible) { ... }
+These functions make testing and debugging easier.
+
+
+3. Processing Submissions
+For each submission:
+Found the matching assignment with .find().
+Skipped assignments that are not yet due.
+Applied a 10% penalty for late submissions.
+Calculated the percentage score.
+Stored results in a temporary object (learnersMap).
+
+We used:
+
+continue to skip invalid or future submissions.
+for...of loops for iteration.
+
+
+4. Building the Final Output
+After processing I:
+Calculated each learner’s average score.
+Removed temporary values (totalScore, totalPoints).
+Used .map() to return the final format:
+
+[
+  { id: 125, avg: 0.985, '1': 0.94, '2': 1 },
+  { id: 132, avg: 0.82, '1': 0.78, '2': 0.833 }
+]
+
+5. Error Handling
+We used a try/catch block to:
+
+Catch invalid data types.
+
+Handle missing assignments.
+
+Prevent crashes.
+
+
+6. Testing the Code
+After each major step, I tested:
+Course/assignment relationship check.
+Late penalty application.
+Future assignment skipping.
+Average score calculation.
+
+
+## How to Run
+Save the code in a .js file
+Run with Node.js:
+View results in the console
+
+Example Output
+[
+  { id: 125, avg: 0.985, '1': 0.94, '2': 1 },
+  { id: 132, avg: 0.82, '1': 0.78, '2': 0.833 }
+]
+
+Future Improvements
+Accept penalty percentage as a parameter.
+
+Output results in a formatted table.
+
+Handle multiple courses at once.
+
