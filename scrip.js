@@ -100,5 +100,10 @@ function getLearnerData(course, assignmentGroup, submissions) {
   }
 }
 
+// Helper functions 
 
+function isDue(dueDate) {
+  const now = new Date();
+  return new Date(dueDate) <= now; 
+}
 
