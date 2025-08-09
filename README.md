@@ -98,3 +98,18 @@ Output results in a formatted table.
 
 Handle multiple courses at once.
 
+
+## Reflection Questions
+1. What could you have done differently during the planning stages to make execution easier?
+I could have written pseudocode for each step before starting. This would have helped me visualize the flow and avoid rewriting logic.
+
+2. Were there any requirements that were difficult to implement?
+The late penalty logic was tricky at first. It would be easier with built-in date comparison utilities or a library like dayjs.
+
+3. What would you add or change if given more time?
+I’d make the program accept multiple courses and export results to a .csv file for easier reading.
+
+4. Notes for my future self
+Always break large problems into small helper functions. Test after every major change. And commit often — it’s much easier to track progress and roll back if something breaks.
+
+
