@@ -128,3 +128,71 @@ function calculatePercentage(score, pointsPossible) {
   }
   return score / pointsPossible;
 }
+
+
+// The Main Loop with Tests
+function getLearnerData(course, assignmentGroup, submissions) {
+  try {
+    // VALIDATE RELATIONSHIP 
+    if (assignmentGroup.course_id !== course.id) {
+      throw new Error(`AssignmentGroup does not belong to course ${course.id}`);
+    }
+    console.log("✅ Course and AssignmentGroup match");
+
+    const learnersMap = {}; // 
+
+    // PROCESS EACH SUBMISSION 
+    for (const sub of submissions) {
+      const assignment = assignmentGroup.assignments.find(a => a.id === sub.assignment_id);
+
+      if (!assignment) {
+        console.warn(`⚠ Assignment ID ${sub.assignment_id} not found, skipping`);
+        continue; // skip this submission
+      }
+
+      // I Skip if not yet due
+      if (!isDue(assignment.due_at)) {
+        console.log(`⏩ Skipping assignment ${assignment.id} (not yet due)`);
+        continue;
+      }
+
+      let score = sub.submission.score;
+
+      // I apply late penalty
+      if (isLate(sub.submission.submitted_at, assignment.due_at)) {
+        console.log(`📉 Late submission for assignment ${assignment.id}, applying penalty`);
+        score = applyLatePenalty(score, assignment.points_possible);
+      }
+
+      // Calculate percentage
+      const percentage = calculatePercentage(score, assignment.points_possible);
+
+      if (!learnersMap[sub.learner_id]) {
+        learnersMap[sub.learner_id] = {
+          id: sub.learner_id,
+          totalScore: 0,
+          totalPoints: 0
+        };
+      }
+
+      learnersMap[sub.learner_id][assignment.id] = Number(percentage.toFixed(3));
+      learnersMap[sub.learner_id].totalScore += score;
+      learnersMap[sub.learner_id].totalPoints += assignment.points_possible;
+
+      console.log(`💾 Stored: Learner ${sub.learner_id}, Assignment ${assignment.id}, %=${percentage.toFixed(3)}`);
+    }
+
+    // ===== 4. BUILD FINAL RESULT =====
+    const results = Object.values(learnersMap).map(learner => {
+      const avg = learner.totalPoints ? learner.totalScore / learner.totalPoints : 0;
+      const { id, totalScore, totalPoints, ...scores } = learner;
+      return { id, avg: Number(avg.toFixed(3)), ...scores };
+    });
+
+    return results;
+
+  } catch (error) {
+    console.error("Error in getLearnerData:", error.message);
+    return [];
+  }
+}
